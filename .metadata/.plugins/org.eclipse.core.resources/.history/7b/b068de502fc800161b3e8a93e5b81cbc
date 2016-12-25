@@ -1,0 +1,181 @@
+import java.rmi.*;
+import java.rmi.server.*;
+import java.util.*;
+
+import javax.swing.text.html.parser.Parser;
+
+public class Addition extends UnicastRemoteObject implements AdditionInterface{
+	public Addition() throws RemoteException{}
+			
+	public class HesapList{
+		int no;  
+	    String adi; 
+	    int bakiye;
+	    HesapList(int no,String adi, int bakiye){  
+	        this.no = no;  
+	        this.adi = adi;
+	        this.bakiye = bakiye;
+	    } 
+	}
+	
+	public class CUSTOMER{
+		int CUSTOMERID;  
+	    String CUSTOMERNM; 
+	    int CUSTOMERACCUUNTNO;
+	    CUSTOMER(int CUSTOMERID,String CUSTOMERNM, int CUSTOMERACCUUNTNO){  
+	        this.CUSTOMERID = CUSTOMERID;  
+	        this.CUSTOMERNM = CUSTOMERNM;
+	        this.CUSTOMERACCUUNTNO = CUSTOMERACCUUNTNO;
+	    } 
+	}
+	    
+	ArrayList<HesapList> hesapInsert = new ArrayList<HesapList>();
+	ArrayList<HesapList> hesapList = new ArrayList<HesapList>();
+	ArrayList<CUSTOMER> customerInsert = new ArrayList<CUSTOMER>();
+	
+	public String ACCUUNTADD(int NO, String NM) throws RemoteException{
+		try {
+			
+			HesapList set = new HesapList(NO, NM, 0);
+			//hesapInsert.add(new HesapList(NO, NM, 0));
+			hesapInsert.add(set);
+			hesapList.add(set);
+			
+			System.out.println("Hesap No : " + NO + " Hesap Taným : " + NM + " Bakiye : " + 0);
+			
+			/*Iterator itr = hesapInsert.iterator();  
+ 
+	        while(itr.hasNext()){  
+	        	HesapList st=(HesapList)itr.next();
+	            System.out.println("Hesap No : " + st.ACCUUNTNO + " Hesap Taným : " + st.ACCUUNTNM + " Bakiye : " + st.ACCUUNTQUANTITY);  
+	        }*/
+			return "Hesabýnýz Kayýt Edilmiþtir.";
+			
+		} catch (Exception e) {
+			return "Hata Oluþtu.";
+		}
+	}
+	
+	public String ACCUUNTMONEYUP(int NO, int TL) throws RemoteException{
+		//ArrayList<HesapList> hesapList = new ArrayList<HesapList>();
+		try {
+			Iterator itr = hesapList.iterator();
+			int index = 0;
+			System.out.println("Para Yatýrma");
+			 while(itr.hasNext()){  
+		        	HesapList st = (HesapList)itr.next();  
+		        	int num = st.ACCUUNTNO;
+		            if (num == NO) {
+		            	//hesapList.remove(pos);
+		            	hesapList.set(index, new HesapList(NO, st.ACCUUNTNM, TL));
+		            	//hesapInsert.add(new HesapList(NO, st.ACCUUNTNM, TL));
+		            	//System.out.println("Hesap No : " + st.ACCUUNTNO + " Hesap Taným : " + st.ACCUUNTNM + " Bakiye : " + TL);
+		            	//return "Para Transferi Gerçekleþmiþtir.";
+					}
+		            else {
+						index++;
+					}
+		        }
+			 
+			 return "Para Yatýrma Ýþlemi Gerçekleþmiþtir.";
+			
+		} catch (Exception e) {
+			return "Hesap Bulunamadý.";
+		}
+		
+		//return "Hesap Bulunamadý.";
+	}
+	
+	public String ACCUUNTMONEYDOWN(int NO, int TL) throws RemoteException{
+		//ArrayList<HesapList> hesapList = new ArrayList<HesapList>();
+		try {
+			Iterator itr = hesapList.iterator();
+			int index = 0;
+			System.out.println("Para Çekme");
+			 while(itr.hasNext()){  
+		        	HesapList st = (HesapList)itr.next();  
+		        	int num = st.ACCUUNTNO;
+		        	int ACCUUNTMONEY = st.ACCUUNTQUANTITY;
+		            if (num == NO) {
+		            	if (ACCUUNTMONEY >= TL) {
+		            		hesapList.set(index, new HesapList(NO, st.ACCUUNTNM, ACCUUNTMONEY - TL));
+						}
+		            	else {
+		            		return "Hesabýnýzda Yeterli Bakiye Bulunmamamktadýr.";
+						}
+					}
+		            else {
+						index++;
+					}
+		        }
+			 
+			 return "Para Çekme Ýþlemi Gerçekleþmiþtir.";
+			
+		} catch (Exception e) {
+			return "Hesap Bulunamadý.";
+		}
+	}
+	
+	public String ACCUUNTLIST() throws RemoteException{
+		try {
+			System.out.println("");
+			Iterator itr = hesapList.iterator();  
+			 
+	        while(itr.hasNext()){  
+	        	HesapList st = (HesapList)itr.next();
+	        	System.out.println("Hesap No : " + st.ACCUUNTNO + " Hesap Taným : " + st.ACCUUNTNM + " Bakiye : " + st.ACCUUNTQUANTITY);  
+	        }
+			
+			return "Hesap Listesi";
+			
+		} catch (Exception e) {
+			return "Hata Oluþtu.";
+		}
+	}
+	
+	public String CUSTOMERADD(int NO, String NM, int ACCUUNTNO) throws RemoteException{
+		try {
+			
+			Iterator itr = hesapList.iterator();
+			int index = 0;
+			
+			 while(itr.hasNext()){  
+		        	HesapList st = (HesapList)itr.next();  
+		        	int num = st.ACCUUNTNO;
+		            if (num == ACCUUNTNO) {
+		            	CUSTOMER set = new CUSTOMER(NO, NM, ACCUUNTNO);
+		    			//hesapInsert.add(new HesapList(NO, NM, 0));
+		    			customerInsert.add(set);
+					}
+		            else {
+						index++;
+					}
+		        }
+			 
+			//System.out.println("Müþteri No : " + NO + ", Müþteri Adý : " + NM + ", Müþterinin Hesabý : " + ACCUUNTNO);
+			
+			return "Müþteri Kayýt Edilmiþtir.";
+			
+		} catch (Exception e) {
+			return "Hata Oluþtu, veya Sistemde Hesap Numasrasý Bulunamadý";
+		}
+	}
+	
+	public String CUSTOMERLIST() throws RemoteException{
+		try {
+			
+			Iterator itr = customerInsert.iterator();  
+			 
+	        while(itr.hasNext()){  
+	        	CUSTOMER st = (CUSTOMER)itr.next();
+	            System.out.println("Müþteri No : " + st.CUSTOMERID + ", Müþteri Adý : " + st.CUSTOMERNM + ", Müþterinin Hesabý : " + st.CUSTOMERACCUUNTNO);  
+	        }
+			
+			return "Müþteri Listesi";
+			
+		} catch (Exception e) {
+			return "Hata Oluþtu.";
+		}
+	}
+
+}

@@ -1,0 +1,60 @@
+
+import java.rmi.*;
+import javax.swing.*;
+
+public class AdditionClient {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		AdditionInterface sametsahin;
+				
+		try{
+			System.setSecurityManager(new RMISecurityManager());
+			sametsahin=(AdditionInterface)Naming.lookup("//localhost/Samet");
+			
+			//Yeni Hesap açma (Bu madde tamamlandý)
+			String result = sametsahin.ACCUUNTADD(1, "Hesap 1");
+			result = sametsahin.ACCUUNTADD(2, "Hesap 2");
+			result = sametsahin.ACCUUNTADD(3, "Hesap 3");
+			result = sametsahin.ACCUUNTADD(4, "Hesap 4");
+			System.out.println(result);
+			
+			System.out.println("");
+			
+			//Para yatýrma (Bu madde tamamlandý)
+			String resultDeposit = sametsahin.ACCUUNTMONEYUP(1, 150);
+			resultDeposit = sametsahin.ACCUUNTMONEYUP(3, 200);
+			System.out.println(resultDeposit); 
+						
+			String resultAccountListDeposit = sametsahin.ACCUUNTLIST();
+			
+			System.out.println("");
+			
+			//Para Çekme (Bu madde tamamlandý)
+			String resultPull = sametsahin.ACCUUNTMONEYDOWN(3, 250);
+			System.out.println(resultPull);
+			
+			
+			//Hesap bakiyesi görüntüleme (Bu madde tamamlandý)
+			String resultAccountListPull = sametsahin.ACCUUNTLIST(); 
+			
+			System.out.println("");
+			
+			//Yönetici için müþterileri listeleme  (Bu madde tamamlandý)
+			String resultCust = sametsahin.CUSTOMERADD(1, "Samet Þahin", 1);
+			resultCust = sametsahin.CUSTOMERADD(2, "Emre Yaðýz Mala", 2);
+			resultCust = sametsahin.CUSTOMERADD(3, "Berk Altýn", 3);
+			resultCust = sametsahin.CUSTOMERADD(4, "Ender Alkan", 5); //Bu kullanýcýyý kayýt etmeyecek çünkü hesap numarasý kayýtlý deðil.
+			System.out.println(resultCust);
+			
+			System.out.println("");
+			
+			String resultCustList = sametsahin.CUSTOMERLIST();
+			System.out.println(resultCustList);  
+		}
+		catch (Exception e){
+			System.out.println("Client Hatasý: "+ e);
+		}
+	}
+
+}

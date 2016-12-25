@@ -1,0 +1,86 @@
+
+import java.net.MalformedURLException;
+import java.rmi.*;
+
+import javax.swing.*;
+
+public class AdditionClient {
+
+	
+	public static void hesapEkle() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String result = alkanender.hesapEkle(1, "Hesap 1");
+		result = alkanender.hesapEkle(2, "Hesap 2");
+		result = alkanender.hesapEkle(3, "Hesap 3");
+		result = alkanender.hesapEkle(4, "Hesap 4");
+		System.out.println(result);
+	}
+	
+	public static void bakiyeYatir() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String resultDeposit = alkanender.bakiyeYatýrým(1, 150);
+		resultDeposit = alkanender.bakiyeYatýrým(3, 200);
+		System.out.println(resultDeposit); 
+		alkanender.hesapListe();
+	}
+	
+	public static void bakiyeCek() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String resultPull = alkanender.bakiyeCek(3, 250);
+		System.out.println(resultPull);
+		alkanender.hesapListe();
+	}
+	
+	public static void musteriEkle() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String result = alkanender.hesapEkle(1, "Hesap 1");
+		result = alkanender.hesapEkle(2, "Hesap 2");
+		result = alkanender.hesapEkle(3, "Hesap 3");
+		result = alkanender.hesapEkle(4, "Hesap 4");
+		System.out.println(result);
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		AdditionInterface alkanender;
+				
+		try{
+			System.setSecurityManager(new RMISecurityManager());
+			alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+			
+			//Yeni Hesap açma
+			hesapEkle();
+			
+			//Para yatýrma (Bu madde tamamlandý)
+			bakiyeYatir();
+			
+			//Para Çekme (Bu madde tamamlandý)
+			
+			
+			
+			//Hesap bakiyesi görüntüleme (Bu madde tamamlandý)
+			String resultAccountListPull = alkanender.ACCUUNTLIST(); 
+			
+			System.out.println("");
+			
+			//Yönetici için müþterileri listeleme  (Bu madde tamamlandý)
+			String resultCust = alkanender.CUSTOMERADD(1, "Samet Þahin", 1);
+			resultCust = alkanender.CUSTOMERADD(2, "Emre Yaðýz Mala", 2);
+			resultCust = alkanender.CUSTOMERADD(3, "Berk Altýn", 3);
+			resultCust = alkanender.CUSTOMERADD(4, "Ender Alkan", 5); //Bu kullanýcýyý kayýt etmeyecek çünkü hesap numarasý kayýtlý deðil.
+			System.out.println(resultCust);
+			
+			System.out.println("");
+			
+			String resultCustList = alkanender.CUSTOMERLIST();
+			System.out.println(resultCustList);  
+		}
+		catch (Exception e){
+			System.out.println("Client Hatasý: "+ e);
+		}
+	}
+
+}

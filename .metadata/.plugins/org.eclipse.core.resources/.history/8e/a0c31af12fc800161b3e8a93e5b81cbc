@@ -1,0 +1,10 @@
+import java.rmi.*;
+
+public interface AdditionInterface extends Remote{
+	public String ACCUUNTADD(int NO, String NM) throws RemoteException;
+	public String ACCUUNTMONEYUP(int NO, int TL) throws RemoteException;
+	public String ACCUUNTMONEYDOWN(int NO, int TL) throws RemoteException;
+	public String CUSTOMERADD(int NO, String NM, int ACCUUNTNO) throws RemoteException;
+	public String CUSTOMERLIST() throws RemoteException;
+	public String ACCUUNTLIST() throws RemoteException;
+}

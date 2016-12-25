@@ -1,0 +1,92 @@
+
+import java.net.MalformedURLException;
+import java.rmi.*;
+
+import javax.swing.*;
+
+public class AdditionClient {
+
+	
+	public static void hesapEkle() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String result = alkanender.hesapEkle(1, "Hesap 1");
+		result = alkanender.hesapEkle(2, "Hesap 2");
+		result = alkanender.hesapEkle(3, "Hesap 3");
+		result = alkanender.hesapEkle(4, "Hesap 4");
+		System.out.println(result);
+	}
+	
+	public static void bakiyeYatir() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String resultDeposit = alkanender.bakiyeYatýrým(1, 150);
+		resultDeposit = alkanender.bakiyeYatýrým(3, 100);
+		System.out.println(resultDeposit); 
+		alkanender.hesapListe();
+	}
+	
+	public static void bakiyeCek() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String resultPull = alkanender.bakiyeCek(3, );
+		System.out.println(resultPull);
+		alkanender.hesapListe();
+	}
+	
+	public static void musteriEkle() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		String resultCust = alkanender.musteriEkle(1, "Samet Þahin", 1);
+		resultCust = alkanender.musteriEkle(2, "Emre Yaðýz Mala", 2);
+		resultCust = alkanender.musteriEkle(3, "Berk Altýn", 3);
+		resultCust = alkanender.musteriEkle(4, "Ender Alkan", 5); //Bu kullanýcýyý kayýt etmeyecek çünkü hesap numarasý kayýtlý deðil.
+		System.out.println(resultCust);
+		alkanender.musteriListe();
+	}
+	
+	public static void hesapListele() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		alkanender.musteriListe();
+	}
+	
+	public static void musteriListele() throws MalformedURLException, RemoteException, NotBoundException{
+		System.setSecurityManager(new RMISecurityManager());
+		AdditionInterface alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+		alkanender.musteriListe();
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		AdditionInterface alkanender;
+				
+		try{
+			System.setSecurityManager(new RMISecurityManager());
+			alkanender=(AdditionInterface)Naming.lookup("//localhost/Ender");
+			
+			//Yeni Hesap açma Fonksiyonu
+			//hesapEkle();
+			
+			//Para yatýrma Fonksiyonu
+			//bakiyeYatir();
+			
+			//Para Çekme Fonksiyonu
+			bakiyeCek();
+			
+			//Müþteri Ekleme Fonksiyonu
+			//musteriEkle();
+			
+			//Hesap Listeleme Fonksiyonu
+			//hesapListele();
+			
+			//Müþteri Listeleme Fonksiyonu
+			//musteriListele();
+			 
+		}
+		catch (Exception e){
+			System.out.println("Client Hatasý: "+ e);
+		}
+	}
+
+}

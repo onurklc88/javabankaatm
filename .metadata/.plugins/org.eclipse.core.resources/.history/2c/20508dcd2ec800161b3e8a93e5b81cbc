@@ -1,0 +1,69 @@
+import java.rmi.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class AdditionServer {
+
+	private static Connection conn;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+				   
+		/*try
+        {
+			//DriverManager.registerDriver(new sun.jdbc.odbc.JdbcOdbcDriver());
+            //Class.forName("com.microsoft.jdbc.sqlserver.SQLServerDriver");
+			//conn = DriverManager.getConnection("jdbc:odbc:pos");
+			//conn = DriverManager.getConnection("jdbc:odbc:pos");
+            //String userName = "samsahin";
+            //String password = "sam123456.,";
+            //String url = "jdbc:sqlserver://cinemasam.database.windows.net:1433;database=CINEMA;user=samsahin@cinemasam;password=sam123456.,;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+            //String url = "jdbc:odbc:pos";
+            //Connection con = DriverManager.getConnection(url, userName, password);
+            //Connection con = DriverManager.getConnection(url);
+           // Statement s1 = con.createStatement();
+            //ResultSet rs = s1.executeQuery("SELECT TOP 1 * FROM USR");
+            /*String[] result = new String[20];
+            if(rs!=null){
+                while (rs.next()){
+                    for(int i = 0; i <result.length ;i++)
+                    {
+                        for(int j = 0; j <result.length;j++)
+                        {
+                            result[j]=rs.getString(i);
+                            System.out.println(result[j]);
+                        }
+                    }
+                }
+            }
+
+            //String result = new result[20];
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } */
+		
+		try{
+			System.setSecurityManager(new RMISecurityManager());
+					   
+			//Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			//String userName = "sa";
+            //String password = "123456";
+            //String url = "jdbc:sqlserver://localhost:1433;databaseName=BANK";
+            //String url = "jdbc:sqlserver://localhost:1433;databaseName=BANK;user=sa;password=123456;";
+            //Connection con = DriverManager.getConnection(url, userName, password);
+			
+			Addition Hello = new Addition();
+			Naming.rebind("Samet", Hello);
+			
+			System.out.println("Sunucu hazýr");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			System.out.println("Sunucu hatasý: "+ e);
+		}
+	}
+}
